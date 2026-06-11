@@ -16,7 +16,7 @@ description: Use when generating WeChat Official Account HTML for Shulex article
 - [ ] 整体字号 15px，行高 1.9，段间距 24px，主色蓝 `#4c6fff`
 - [ ] 小标题：左侧竖线 5px、品牌蓝，文字 18px 加粗、深色 `#1a1a1a`，非品牌蓝
 - [ ] 关键词/链接：品牌蓝色字 + 「」包裹 + 下划线，不用背景色块
-- [ ] 亮点卡片：浅蓝底 `#eef4fd`，挑战/成果双行结构，成果数字加粗
+- [ ] 亮点卡片：浅蓝底 `#eef4fd`，挑战/成果双行结构，成果数字加粗，**容器必须用 `<span style="display:block">` 而非 `<div>`**
 - [ ] 引语块：无背景，左侧竖线，斜体，客户姓名+职位
 - [ ] 对话气泡：客户右对齐灰底，AI 左对齐白底蓝边
 - [ ] CTA 区块：蓝底 `#4c6fff` 白字，触发词明确
@@ -155,8 +155,11 @@ paragraph-margin: 0 0 24px;
 
 ### 亮点卡片区（三条挑战→成果）
 
+> ⚠️ **必须用 `<span style="display:block">` 而非 `<div>`**
+> 微信编辑器从浏览器粘贴时会剥离 `div` 的 `background-color`，但会保留 `span` 的 `background-color`。
+
 ```html
-<div style="background:#eef4fd;padding:24px 28px;margin:32px 0;border-radius:6px;">
+<span style="display:block;background-color:#eef4fd;padding:24px 28px;margin:32px 0;border-radius:6px;">
 
   <!-- 挑战01 -->
   <p style="margin:0 0 4px;color:#4c6fff;font-size:12px;
@@ -171,7 +174,7 @@ paragraph-margin: 0 0 24px;
 
   <!-- 重复 挑战02 / 挑战03，最后一条去掉底部 margin-bottom:28px -->
 
-</div>
+</span>
 ```
 
 ---
@@ -228,8 +231,10 @@ paragraph-margin: 0 0 24px;
 
 ### CTA 区块
 
+> ⚠️ 同样必须用 `<span style="display:block">` 保留蓝底背景
+
 ```html
-<div style="background:#4c6fff;padding:28px 24px;margin:40px 0;
+<span style="display:block;background-color:#4c6fff;padding:28px 24px;margin:40px 0;
   border-radius:8px;text-align:center;">
   <p style="color:#fff;font-size:16px;font-weight:700;margin:0 0 10px;line-height:1.6;">
     主 CTA 文案
@@ -237,7 +242,7 @@ paragraph-margin: 0 0 24px;
   <p style="color:rgba(255,255,255,0.85);font-size:14px;margin:0;line-height:1.7;">
     后台留言「触发词」，1-2 个工作日出结果，不收费
   </p>
-</div>
+</span>
 ```
 
 ---
@@ -277,3 +282,5 @@ MyContentFactory/
 | 亮点区块只写解法不写数字 | 每条成果必须有加粗的量化数字 |
 | 对话气泡没有圆角 | 用 `border-radius` 区分客户（右上直角）和 AI（左上直角） |
 | CTA 说「联系我们」 | 改为「留言『诊断』/『了解』」+ 说明响应时效 |
+| **背景色容器用 `<div>`** | **必须改用 `<span style="display:block">`**：微信编辑器粘贴时会剥离 `div` 的 `background-color`，但保留 `span` 的 `background-color`。所有有背景色的卡片、CTA 块一律用 `span` |
+| **背景容器用 `<table bgcolor>`** | 同上，`bgcolor` 属性也不可靠，唯一可靠方案是 `<span style="display:block;background-color:...">` |
